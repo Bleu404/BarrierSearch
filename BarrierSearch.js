@@ -1,16 +1,16 @@
 // ==UserScript==
 // @name         壁垒搜索
 // @namespace    https://github.com/Bleu404/
-// @version      1.0.0
+// @version      1.0.1
 // @description  自定义搜索引擎如谷歌、百度、YOUTUBE、B站、豆瓣、CSDN、贴吧、知乎、简书等，自动识别选择内容，快捷键"Alt+x"作为脚本开关。
 // @author       bleu
 // @compatible   chrome Tampermonkey
 // @license      GPL-3.0-only
 // @match        *://*/*
-// @icon         https://cdn.jsdelivr.net/gh/Bleu404/PRPO@main/png/BarrierSearch.png
+// @icon         https://fastly.jsdelivr.net/gh/Bleu404/PRPO@main/png/BarrierSearch.png
 // @grant        GM_setValue
 // @grant        GM_getValue
-// @require      https://cdn.jsdelivr.net/npm/gbk.js@0.3.0/dist/gbk.min.js
+// @require      https://fastly.jsdelivr.net/npm/gbk.js@0.3.0/dist/gbk.min.js
 // ==/UserScript==
 
 (function () {
@@ -88,7 +88,7 @@
         itemNode.querySelector('.bleu_bs_showitem_info').addEventListener('mousedown', function (e) {
             let i;
             if(e.button==2){
-                document.querySelector('#bleu_bs_show').childNodes.forEach(item=>{
+                document.querySelectorAll('.bleu_bs_showitem[state="1"]').forEach(item=>{
                     item.setAttribute('state',0);
                     i = item.getAttribute('index');
                     defInfo[i]['iswork']=false;
@@ -99,7 +99,7 @@
                 defInfo[i]['iswork']=true;
                 e.target.parentNode.firstChild.firstChild.innerHTML='✅';
             }
-            if(e.button==0){
+            else if(e.button==0){
                 i = e.target.parentNode.getAttribute('index');
                 if(e.target.parentNode.getAttribute('state')==1){
                     e.target.parentNode.setAttribute('state',0);
@@ -113,6 +113,9 @@
             }
             saveEngine();
         })
+        itemNode.querySelector('.bleu_bs_showitem_info').addEventListener('mouseup',()=>{
+            document.querySelector('#bleu_bs_search input').focus();
+        }) 
         itemNode.querySelector('.bleu_bs_showitem_del').addEventListener('click', function (e) {
             let i = e.target.parentNode.getAttribute('index');
             defInfo[i]="";
