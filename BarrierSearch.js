@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         壁垒搜索
 // @namespace    https://github.com/Bleu404/
-// @version      1.0.1
+// @version      1.0.2
 // @description  自定义搜索引擎如谷歌、百度、YOUTUBE、B站、豆瓣、CSDN、贴吧、知乎、简书等，自动识别选择内容，快捷键"Alt+x"作为脚本开关。
 // @author       bleu
 // @compatible   chrome Tampermonkey
@@ -19,10 +19,10 @@
     const hotkey ='x';//小写，替换x为其他键位
     let defInfo;
     function addCssStyle() {
-        let cssStyle = `#BleuBSUI {z-index: 9999!important;top: 30%;left: 30%;width: 400px;overflow: auto;position: fixed;border-radius: 10px;background: linear-gradient(45deg,rgba(18,194,233,0.9), rgba(196,113,237,0.9),rgba(246,79,89,0.9))}
+        let cssStyle = `#BleuBSUI {z-index: 9999!important;top: 30%;left: 30%;width: 400px;overflow: auto;position: fixed;border-radius: 10px;background: linear-gradient(45deg,rgba(18,194,233,0.9), rgba(196,113,237,0.9),rgba(246,79,89,0.9));color: black}
         .bleu_bs_but{font-weight: bold;box-shadow: 3px 2px 2px 1px rgb(0 0 0 / 50%);border-radius: 5px;font-size: 16px;width: fit-content;}
         .bleu_bs_but:active{box-shadow: 0 5px #666;transform: translateY(4px)}
-        .bleu_bs_inp{padding: 3px;border: 0px;outline-style: none;border-radius: 50px;font-size: 18px;background-color: #fff;box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 20%);width:70%}
+        .bleu_bs_inp{padding: 3px;border: 0px;outline-style: none;border-radius: 50px;background-color: #fff;box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 20%);width: 75%;text-align: center;font-size: 14px;height: 30px;font-weight: 600;}
         #bleu_bs_addei div{margin: 10px;}
         #bleu_bs_addei label{margin-right: 10px;font-size: 16px}
         .bleu_bs_showitem{font-size: 14px;margin: 10px;border-radius: 6px;width: 180px;box-shadow: 3px 2px 2px 1px rgb(0 0 0 / 50%);}
@@ -37,10 +37,10 @@
 
     function getHtml(){ 
         let retHtml=`<div id="bleu_bs_title" style="padding-left: 30%;font-size: 22px;"><span style="font-weight: bold;"><a href="https://greasyfork.org/zh-CN/users/798733-bleu" target="_blank">壁垒搜索</a></span>™<span style="font-size: 13px;font-style: oblique;"><a href="https://github.com/Bleu404/" target="_blank">  by bleu</a></span></div>
-        <div id="bleu_bs_search" style="margin: 10px;"><input type="text" class="bleu_bs_inp" style="width: 75%;text-align: center;">
+        <div id="bleu_bs_search" style="margin: 10px;"><input type="text" class="bleu_bs_inp">
         <div style="margin-right: 4%;float: right;padding: 3px;" class="bleu_bs_but">搜索</div></div>
         <div class="bleu_bs_but addeni" style="margin: 10px;">添加搜索引擎</div>
-        <div id="bleu_bs_addei" style="display:none;"><div><label>名称:</label><input style="font-size: 16px;" type="text" placeholder="自定义搜索引擎名称" class="bleu_bs_inp name"></div><div><label>地址:</label><input style="font-size: 16px;" placeholder="网址格式（用%s代替搜索字词）" type="text" class="bleu_bs_inp url"></div><div><label>数据:</label><textarea placeholder="POST方式，地址中使用了%s，本框不用填写" type="text" class="bleu_bs_inp data" style="display: inline-table;border-radius: 5px;font-size: 16px;"></textarea></div>
+        <div id="bleu_bs_addei" style="display:none;"><div><label>名称:</label><input type="text" placeholder="自定义搜索引擎名称" class="bleu_bs_inp name"></div><div><label>地址:</label><input placeholder="网址格式（用%s代替搜索字词）" type="text" class="bleu_bs_inp url"></div><div><label>数据:</label><textarea placeholder="POST方式，地址中使用了%s，本框不用填写" type="text" class="bleu_bs_inp data" style="display: inline-table;border-radius: 5px;"></textarea></div>
         <div><label>中文乱码时选择：</label><input type="checkbox" class="bleu_bs_gbk"></input></div>
         <div style="display: flex;"><div class="bleu_bs_but ok">确定</div><div class="bleu_bs_but ccl">取消</div></div></div>
         <div id="bleu_bs_show" style="display: inline-flex;flex-wrap: wrap;"></div>`;
